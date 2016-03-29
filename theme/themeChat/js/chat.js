@@ -12,7 +12,7 @@ $('#creaTema').click(function(e){
     $.getJSON(baseURL+'index.php/chat/crearTemaChat?id_usuario_de='+$('#id_usuario_de').val()+
             '&tema_chat='+$('#temaChat').val()+'&cod_seccion='+$('#seccion').val()+
             '&id_operador='+$('#idOperador').val(), function(data){
-                actualiza_tema(data);
+                console.log("Logro registrar");
             });
     
     $('#myModal').modal('hide');
@@ -36,7 +36,7 @@ var update_temas = function(){
             });
     }else{
         $.getJSON(baseURL+'index.php/chat/getNroTemasActualesOpe?id_usuario='+$('#id_usuario_de').val()+
-            '&valor=null', function(data){
+            '&id_rol='+$('#rol').val(), function(data){
                 if(numLiTemas > data['nroTemasAct']){
                     $('#ultimoTema').val('').removeClass('value').removeAttr('value');
                     document.getElementById('temasRecientes').innerHTML="";
@@ -61,7 +61,7 @@ var update_temas = function(){
         console.log(baseURL+'index.php/chat/get_temasOpeAbiertos?id_usuario='+$('#id_usuario_de').val()+
             '&ultimo_tema='+ultTema);
         $.getJSON(baseURL+'index.php/chat/get_temasOpeAbiertos?id_usuario='+$('#id_usuario_de').val()+
-            '&ultimo_tema='+ultTema, function(data){
+            '&ultimo_tema='+ultTema+'&id_rol='+$('#rol').val(), function(data){
                 append_lista_abiertos(data);
             });
     }
@@ -78,7 +78,10 @@ var append_lista_abiertos = function(listabiertos_data){
             ultTema = parseInt(document.getElementById('ultimoTema').value);
         }
         if(dataid > ultTema){
-            var html = '<li id="'+data.id+'" onclick="getIdTema('+data.id+')" data-value="'+data.fec_ult+'"><a href="#"><div style="margin-top:-30px;">'+ data.tema +'</div></a> <div style="float:right; margin-right:4px !important; font-size:10px !important;" id="ultMensajeUsu">'+data.descripcion_usuario+' - '+data.fec_ult+'</div></li>';
+            if(data.descripcion_usuario == null)
+                var html = '<li id="'+data.id+'" onclick="getIdTema('+data.id+')" data-value="'+data.fec_ult+'"><a href="#"><div style="margin-top:-30px;">'+ data.tema +'</div></a> <div style="float:right; margin-right:4px !important; font-size:10px !important;" id="ultMensajeUsu">'+data.usuario+' - '+data.fec_ult+'</div></li>';
+            else
+                var html = '<li id="'+data.id+'" onclick="getIdTema('+data.id+')" data-value="'+data.fec_ult+'"><a href="#"><div style="margin-top:-30px;">'+ data.tema +'</div></a> <div style="float:right; margin-right:4px !important; font-size:10px !important;" id="ultMensajeUsu">'+data.descripcion_usuario+' - '+data.fec_ult+'</div></li>';
             document.getElementById('ultimoTema').value = data.id;
             $('#temasRecientes').prepend(html);
         }

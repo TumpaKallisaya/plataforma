@@ -176,7 +176,7 @@ class Chatmodel extends Model{
         $this->db->where($qry);
         $this->db->order_by('ct.id', 'DESC');
         $query = $this->db->get();*/
-        $query = $this->db->query(" select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, c.id_usuario_de as id_usu_ult, c.fecha_envio as fec_ult, max(c.id) as id_conv, u.descripcion_usuario
+        $query = $this->db->query(" select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, c.id_usuario_de as id_usu_ult, c.fecha_envio as fec_ult, max(c.id) as id_conv, u.descripcion_usuario, u.usuario
                 from tb_chat_tema ct, tb_usuario_seccion us, tb_chat c, tb_usuarios u
                 where us.cod_seccion = ct.cod_seccion
                 and ct.id = c.id_tema
@@ -185,7 +185,7 @@ class Chatmodel extends Model{
                 and ct.id > ".$ultimo_tema."
                 group by ct.id
                 union
-                select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, ct.id_usuario as id_usu_ult, ct.fecha_creacion as fec_ult, ct.id as id_conv, u.descripcion_usuario  
+                select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, ct.id_usuario as id_usu_ult, ct.fecha_creacion as fec_ult, ct.id as id_conv, u.descripcion_usuario, u.usuario
                 from tb_chat_tema ct
                 left join tb_chat c
                         on ct.id = c.id_tema	
@@ -210,7 +210,7 @@ class Chatmodel extends Model{
         $this->db->where($qry);
         $this->db->order_by('ct.id', 'ASC');
         $query = $this->db->get();*/
-        $query = $this->db->query(" select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, c.id_usuario_de as id_usu_ult, c.fecha_envio as fec_ult, max(c.id) as id_conv, u.descripcion_usuario
+        $query = $this->db->query(" select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, c.id_usuario_de as id_usu_ult, c.fecha_envio as fec_ult, max(c.id) as id_conv, u.descripcion_usuario, u.usuario
                 from tb_chat_tema ct, tb_usuario_operador uo, tb_chat c, tb_usuarios u
                 where uo.id_operador = ct.id_operador
                 and ct.id = c.id_tema
@@ -219,7 +219,7 @@ class Chatmodel extends Model{
                 and ct.id > ".$ultimo_tema."
                 group by ct.id
                 union
-                select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, ct.id_usuario as id_usu_ult, ct.fecha_creacion as fec_ult, ct.id as id_conv, u.descripcion_usuario  
+                select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, ct.id_usuario as id_usu_ult, ct.fecha_creacion as fec_ult, ct.id as id_conv, u.descripcion_usuario, u.usuario
                 from tb_chat_tema ct
                 left join tb_chat c
                     on ct.id = c.id_tema	
@@ -233,6 +233,30 @@ class Chatmodel extends Model{
                 and ct.id > ".$ultimo_tema."
                 order by id asc
                 ");
+        
+        return $query;
+    }
+    
+    public function getLisTemAbiOpeRolCuatro($id_usuario, $ultimo_tema){
+        $query = $this->db->query(" select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, c.id_usuario_de as id_usu_ult, c.fecha_envio as fec_ult, max(c.id) as id_conv, u.descripcion_usuario, u.usuario
+                from tb_chat_tema ct, tb_chat c, tb_usuarios u
+                where ct.id = c.id_tema
+                and c.id_usuario_de = u.id_usuario
+                and ct.id_usuario = ".$id_usuario." and ct.estado = 'ABIERTO'
+                and ct.id > ".$ultimo_tema."
+                group by ct.id
+                union
+                select ct.id, ct.cod_seccion, ct.id_operador, ct.tema, ct.estado, ct.id_usuario as id_usu_ult, ct.fecha_creacion as fec_ult, ct.id as id_conv, u.descripcion_usuario, u.usuario
+                from tb_chat_tema ct
+                left join tb_chat c
+                    on ct.id = c.id_tema
+                join tb_usuarios u
+                    on ct.id_usuario = u.id_usuario
+                where c.id_tema is null
+                and ct.id_usuario = ".$id_usuario."
+                and ct.estado = 'ABIERTO'
+                and ct.id > ".$ultimo_tema."
+                order by id asc ");
         
         return $query;
     }
@@ -290,6 +314,17 @@ class Chatmodel extends Model{
         $this->db->select('ct.id, ct.cod_seccion, ct.id_operador, ct.tema');
         $this->db->from('tb_chat_tema ct');
         $this->db->join('tb_usuario_operador uo', 'uo.id_operador = ct.id_operador');
+        $this->db->where($qry);
+        $this->db->order_by('ct.id', 'ASC');
+        $query = $this->db->get();
+        
+        return $query->num_rows();
+    }
+    
+    public function getNroTemasOpeRolCuatro($id_usuario){
+        $qry = "ct.id_usuario = ".$id_usuario." and ct.estado = 'ABIERTO'";
+        $this->db->select('ct.id, ct.cod_seccion, ct.id_operador, ct.tema');
+        $this->db->from('tb_chat_tema ct');
         $this->db->where($qry);
         $this->db->order_by('ct.id', 'ASC');
         $query = $this->db->get();

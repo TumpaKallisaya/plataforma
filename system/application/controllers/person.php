@@ -64,7 +64,7 @@ class Person extends Controller {
         $data['id_usuario'] = $id_usu;
         $data['listaSecciones'] = $this->chatmodel->getListaSecciones();
         $data['operador'] = $operador;
-        $data['rol'] = $id_rol;
+        $data['id_rol'] = $id_rol;
 
         if($this->chatmodel->esAtt($id_usu)){
             $data['esAtt'] = true;

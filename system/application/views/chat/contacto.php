@@ -26,7 +26,7 @@
                                         <img class="img-circle" src="<?php echo base_url(); ?>theme/themeChat/images/logo2.png" />
                                         <div class="info">
                                             <h4 class="text-center">ATT</h4>
-                                            <input id="idOperador" type="text" hidden="true" value="<?php echo $operador->id;?>"/>
+                                            <input id="idOperador" type="text" hidden="true" value="<?php if($id_rol == 4){echo 0;}else{ echo $operador->id;}?>"/>
                                             <p>La Autoridad de Regulaci&oacute;n y Fiscalizaci&oacute;n de Telecomunicaciones y Transportes presenta la herramienta de Chat para solucionar las distintas dudas.</p>
                                             <a href="" class="btn btn-primary center-block" data-toggle="modal" data-target="#myModal">Crear un nuevo tema de conversaci&oacute;n</a>
                                         </div>
@@ -71,7 +71,7 @@
                                             <div class="input-group">
                                                 <input id="id_usuario_de" type="text" hidden="true" value="<?php echo $id_usuario;?>"/>
                                                 <input id="id_usuario_para" type="text" hidden="true"/>
-                                                <input id="rol" type="text" hidden="true" value="<?php echo $rol;?>"/>
+                                                <input id="rol" type="text" hidden="true" value="<?php echo $id_rol;?>"/>
                                                 <span class="input-group-btn">
                                                     <a href="#" data-toggle="modal" data-target="#modalUpload"><img src="<?php echo base_url();?>theme/themeChat/images/cargar.png" class="img-circle-pk" /></a>
                                                 </span>

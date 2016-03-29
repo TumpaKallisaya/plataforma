@@ -75,7 +75,6 @@
 <script src="<?php echo base_url();?>theme/themeAplicaciones/js/custom.js"></script>
 <script src="<?php echo base_url();?>theme/themeAplicaciones/js/respond.min.js"></script>
 <script src="<?php echo base_url();?>theme/themeAplicaciones/js/ios-orientationchange-fix.js"></script>
-
 </head>
 <body>
 <div class="layout">

@@ -227,8 +227,13 @@ class Chat extends Controller {
         parse_str(substr(strrchr($_SERVER['REQUEST_URI'], "?"), 1), $_GET);
         $id_usuario = $_GET['id_usuario'];
         $ultimo_tema = $this->input->get('ultimo_tema', '');
+        $id_rol = $this->input->get('id_rol', '');
         
-        $listaTemasOpe = $this->chatmodel->getLisTemAbiOpe($id_usuario, $ultimo_tema)->result_array();
+        if($id_rol == 4){
+            $listaTemasOpe = $this->chatmodel->getLisTemAbiOpeRolCuatro($id_usuario, $ultimo_tema)->result_array();
+        }else{
+            $listaTemasOpe = $this->chatmodel->getLisTemAbiOpe($id_usuario, $ultimo_tema)->result_array();
+        }
         $this->_setOutput($listaTemasOpe);
     }
     
@@ -332,8 +337,13 @@ class Chat extends Controller {
     public function getNroTemasActualesOpe(){
         parse_str(substr(strrchr($_SERVER['REQUEST_URI'], "?"), 1), $_GET);
         $id_usuario = $_GET['id_usuario'];
+        $id_rol = $_GET['id_rol'];
         
-        $nroTemasActuales = $this->chatmodel->getNroTemasOpe($id_usuario);
+        if($id_rol == 4){
+            $nroTemasActuales = $this->chatmodel->getNroTemasOpeRolCuatro($id_usuario);
+        }else{
+            $nroTemasActuales = $this->chatmodel->getNroTemasOpe($id_usuario);
+        }
         $this->_setOutput(array('nroTemasAct' => $nroTemasActuales));
     }
     

@@ -634,7 +634,7 @@ Tarija: Tel. 664-4136 <br>
                         <div class="input-group">
                             <input id="id_usuario_de" type="text" hidden="true" value="<?php echo $id_usuario;?>"/>
                             <input id="id_usuario_para" type="text" hidden="true"/>
-                            <input id="rol" type="text" hidden="true" value="<?php echo $rol;?>"/>
+                            <input id="rol" type="text" hidden="true" value="<?php echo $id_rol;?>"/>
                             <span class="input-group-btn">
                                 <a href="#" data-toggle="modal" data-target="#modalUpload"><img src="<?php echo base_url();?>theme/themeChat/images/cargar.png" class="img-circle-pk" /></a>
                             </span>
